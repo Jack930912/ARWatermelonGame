@@ -70,3 +70,14 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/StreamingAssets/Vuforia/VuforiaMars_Images.xml.meta
+Assets/StreamingAssets/Vuforia/VuforiaMars_Images.xml
+Assets/StreamingAssets/Vuforia/VuforiaMars_Images.dat.meta
+Assets/StreamingAssets/Vuforia/VuforiaMars_Images.dat
+Assets/StreamingAssets/Vuforia.meta
+Assets/Resources/VuforiaConfiguration.asset.meta
+Assets/Resources/VuforiaConfiguration.asset
+Assets/Editor/Vuforia/ImageTargetTextures/VuforiaMars_Images.meta
+Assets/Editor/Vuforia/ImageTargetTextures/VuforiaEmulator.meta
+Assets/Editor/Vuforia/CylinderTargetTextures/VuforiaMars_Images.meta
+Packages/com.ptc.vuforia.engine-11.1.3.tgz
