@@ -105,4 +105,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a21585bc648b3384fa1d41d92b6ef956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatSound: {fileID: 0}
+  eatSound: {fileID: 8300000, guid: db442e464c3ecf34784fda78b59b2c39, type: 3}

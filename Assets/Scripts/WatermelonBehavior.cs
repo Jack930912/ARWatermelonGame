@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class WatermelonBehavior : MonoBehaviour
 {
-    public AudioClip eatSound;
-    private AudioSource audioSource;
+    public AudioClip eatSound;              // 吃的音效（從 Inspector 拖進來）
+    private AudioSource audioSource;        // 負責播放音效的 AudioSource
     private bool eaten = false;
 
     void Start()
     {
-        // 找角色身上的 AudioSource，記得角色要加 tag "Player"
+        // 從角色（Tag 為 Player）抓出 AudioSource
         audioSource = GameObject.FindWithTag("Player").GetComponent<AudioSource>();
     }
 
@@ -18,13 +18,13 @@ public class WatermelonBehavior : MonoBehaviour
         {
             eaten = true;
 
-            // 撥放聲音
+            // 播放吃的音效（瞬間）
             if (eatSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(eatSound);
             }
 
-            // 消除西瓜
+            // 消除西瓜（或播放特效）
             Destroy(gameObject);
         }
     }
