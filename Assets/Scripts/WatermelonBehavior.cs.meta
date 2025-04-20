@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: a21585bc648b3384fa1d41d92b6ef956
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - eatSound: {instanceID: 0}
+  - manager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

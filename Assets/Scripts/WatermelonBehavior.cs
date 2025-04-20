@@ -1,30 +1,52 @@
+ï»¿
 using UnityEngine;
 
 public class WatermelonBehavior : MonoBehaviour
 {
-    public AudioClip eatSound;              // ¦Yªº­µ®Ä¡]±q Inspector ©ì¶i¨Ó¡^
-    private AudioSource audioSource;        // ­t³d¼½©ñ­µ®Äªº AudioSource
+    public AudioClip eatSound;
+    public int spawnIndex;
+    public WatermelonManager manager;
+
     private bool eaten = false;
+    private AudioSource audioSource;
+    private Animator animator;
 
     void Start()
     {
-        // ±q¨¤¦â¡]Tag ¬° Player¡^§ì¥X AudioSource
-        audioSource = GameObject.FindWithTag("Player").GetComponent<AudioSource>();
+        GameObject player = GameObject.FindWithTag("player");
+        audioSource = player.GetComponent<AudioSource>();
+        animator = player.GetComponent<Animator>();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (!eaten && other.CompareTag("Player"))
+        if (!eaten && other.CompareTag("player"))
         {
             eaten = true;
 
-            // ¼½©ñ¦Yªº­µ®Ä¡]Àþ¶¡¡^
+            // Align Y
+            Vector3 pos = other.transform.position;
+            pos.y = transform.position.y;
+            other.transform.position = pos;
+
+            // Animation
+            if (animator != null)
+            {
+                animator.SetTrigger("Eat");
+            }
+
+            // Sound
             if (eatSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(eatSound);
             }
 
-            // ®ø°£¦è¥Ê¡]©Î¼½©ñ¯S®Ä¡^
+            // Inform manager
+            if (manager != null)
+            {
+                manager.OnEaten(spawnIndex);
+            }
+
             Destroy(gameObject);
         }
     }

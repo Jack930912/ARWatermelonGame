@@ -1,50 +1,68 @@
-﻿using UnityEngine;
-using UnityEngine.UI;  // 如果你是使用 Text（不是 TMP），用這個
-using TMPro;           // 如果你用 TextMeshPro（推薦），用這個
+﻿
+using UnityEngine;
+using TMPro;
+using System.Collections;
 
 public class WatermelonManager : MonoBehaviour
 {
     public GameObject watermelonPrefab;
     public Transform[] spawnPoints;
-    public Animator characterAnimator;
-    public AudioSource audioSource;
-    public AudioClip eatSound;
+    public TMP_Text watermelonCounterText;
 
-    public TMP_Text watermelonCounterText;   // 把 TextMeshPro UI 元件拖進來
-
-    private int currentCount = 0;
-    public int maxCount = 5;
+    private int totalEaten = 0;
+    private GameObject[] spawnedWatermelons;
 
     void Start()
     {
-        UpdateUI(); // 初始化
-        SpawnNext();
-    }
-
-    public void SpawnNext()
-    {
-        if (currentCount >= maxCount)
-        {
-            characterAnimator.SetTrigger("Burp");
-            watermelonCounterText.text = "🍉 Good job！";
-            return;
-        }
-
-        int index = Random.Range(0, spawnPoints.Length);
-        Instantiate(watermelonPrefab, spawnPoints[index].position, Quaternion.identity);
-    }
-
-    public void OnEaten()
-    {
-        characterAnimator.SetTrigger("Eat");
-        audioSource.PlayOneShot(eatSound);
-        currentCount++;
+        spawnedWatermelons = new GameObject[spawnPoints.Length];
+        SpawnAll();
         UpdateUI();
-        Invoke(nameof(SpawnNext), 0.5f);
+    }
+
+    void SpawnAll()
+    {
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            SpawnWatermelonAt(i);
+        }
+    }
+
+    void SpawnWatermelonAt(int index)
+    {
+        if (spawnedWatermelons[index] == null)
+        {
+            Vector3 spawnPosition = spawnPoints[index].position;
+            spawnPosition.y = -2f; // 固定在 Y = -2
+            GameObject melon = Instantiate(watermelonPrefab, spawnPosition, Quaternion.identity);
+            melon.tag = "watermelon";
+
+            WatermelonBehavior behavior = melon.GetComponent<WatermelonBehavior>();
+            behavior.spawnIndex = index;
+            behavior.manager = this;
+
+            spawnedWatermelons[index] = melon;
+        }
+    }
+
+    public void OnEaten(int index)
+    {
+        totalEaten++;
+        UpdateUI();
+        spawnedWatermelons[index] = null;
+        StartCoroutine(RespawnWatermelon(index, Random.Range(10f, 15f)));
+    }
+
+    IEnumerator RespawnWatermelon(int index, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SpawnWatermelonAt(index);
     }
 
     void UpdateUI()
     {
-        watermelonCounterText.text = "🍉score：" + currentCount;
+        if (watermelonCounterText != null)
+        {
+            watermelonCounterText.text = "Watermelons eaten: " + totalEaten;
+        }
     }
 }
